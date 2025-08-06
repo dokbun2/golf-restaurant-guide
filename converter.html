@@ -149,13 +149,22 @@
         </div>
 
         <button onclick="convertContent()">변환하기</button>
+        
+        <div style="background: #ffe5e5; padding: 15px; border-radius: 5px; margin-top: 20px; border: 1px solid #ff9999;">
+            <h4 style="margin: 0 0 10px 0; color: #cc0000;">⚠️ 중요 안내</h4>
+            <ol style="margin: 0; padding-left: 20px;">
+                <li>변환하기 클릭</li>
+                <li><strong style="color: #cc0000;">파일 다운로드 (필수!)</strong> - 다운로드한 파일을 GitHub에 업로드해야 링크가 작동합니다</li>
+                <li>메인페이지에 저장하기 클릭</li>
+            </ol>
+        </div>
 
         <div id="result" class="result-box">
             <h3>변환 결과</h3>
             <p><strong>파일명:</strong> <span id="fileName"></span></p>
             <textarea id="convertedHtml" readonly></textarea>
             <button class="copy-btn" onclick="copyToClipboard()">복사하기</button>
-            <button class="copy-btn" onclick="downloadFile()">파일 다운로드</button>
+            <button class="copy-btn" onclick="downloadFile()" style="background-color: #ff6b6b;">📥 파일 다운로드 (필수!)</button>
             <button onclick="saveToMainPage()">메인페이지에 저장하기</button>
             <div class="success-message" id="copySuccess">✅ 복사되었습니다!</div>
             <div class="success-message" id="saveSuccess">✅ 메인페이지에 저장되었습니다!</div>
@@ -417,12 +426,13 @@
                     successMsg.style.display = 'none';
                 }, 2000);
                 
-                alert('저장되었습니다! 메인페이지로 이동합니다.');
-                
-                // 메인페이지로 이동
-                setTimeout(() => {
+                // 파일 다운로드 여부 확인
+                if (confirm('저장되었습니다!\n\n⚠️ 파일을 다운로드하셨나요?\n다운로드한 파일을 GitHub에 업로드해야 링크가 작동합니다.\n\n확인: 메인페이지로 이동\n취소: 이 페이지에 머물기')) {
+                    // 메인페이지로 이동
                     window.location.href = 'index.html';
-                }, 1000);
+                } else {
+                    alert('파일 다운로드 버튼을 클릭하여 파일을 다운로드하고,\nGitHub 리포지토리에 업로드해주세요!');
+                }
                 
             } catch (error) {
                 console.error('저장 중 오류:', error);
