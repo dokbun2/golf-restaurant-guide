@@ -645,6 +645,9 @@ async function loadSavedGolfCourses() {
     const golfCoursesGrid = document.getElementById('golfCoursesGrid');
     if (!golfCoursesGrid) return;
     
+    // 삭제된 골프장 목록 가져오기
+    const deletedCourses = JSON.parse(localStorage.getItem('deletedGolfCourses') || '[]');
+    
     try {
         // JSON 파일에서 골프장 목록 로드
         const response = await fetch('golf-courses/golf-courses-list.json');
@@ -654,6 +657,11 @@ async function loadSavedGolfCourses() {
             
             // 각 골프장에 대해 카드 생성
             for (const courseInfo of data.courses) {
+                // 삭제된 골프장은 건너뛰기
+                if (deletedCourses.includes(courseInfo.id)) {
+                    continue;
+                }
+                
                 // 골프장 상세 정보 로드
                 const detailResponse = await fetch(`golf-courses/${courseInfo.id}.json`);
                 if (detailResponse.ok) {
@@ -705,15 +713,20 @@ async function loadSavedGolfCourses() {
         const savedCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
         
         savedCourses.forEach(course => {
-            const restaurantList = course.restaurants.map(r => 
-                `<li>${r.name} - ${r.menu}</li>`
-            ).join('');
-            
             const courseId = course.name.toLowerCase()
                 .replace(/cc/gi, 'cc')
                 .replace(/\s+/g, '-')
                 .replace(/[^a-z0-9-]/g, '');
-                
+            
+            // 삭제된 골프장은 건너뛰기
+            if (deletedCourses.includes(courseId)) {
+                return;
+            }
+            
+            const restaurantList = course.restaurants.map(r => 
+                `<li>${r.name} - ${r.menu}</li>`
+            ).join('');
+            
             const cardHtml = `
                 <div class="golf-course-card" data-region="${course.region}" onclick="location.href='golf-detail.html?id=${courseId}'">
                     <div class="golf-course-header">
