@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>골프장 맛집 페이지 변환기</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #228B22;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .converter-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #228B22;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: monospace;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #228B22;
+        }
+
+        button {
+            background-color: #228B22;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1a6b1a;
+        }
+
+        .result-box {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-box h3 {
+            margin-top: 0;
+            color: #228B22;
+        }
+
+        .copy-btn {
+            background-color: #666;
+            font-size: 14px;
+            padding: 8px 20px;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            background-color: #555;
+        }
+
+        .success-message {
+            color: #228B22;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏌️ 골프장 맛집 페이지 변환기</h1>
+
+    <div class="converter-box">
+        <h2>골프장 정보 입력</h2>
+        
+        <div class="form-group">
+            <label for="golfCourseName">골프장 이름 (예: 프린세스CC)</label>
+            <input type="text" id="golfCourseName" placeholder="프린세스CC">
+        </div>
+
+        <div class="form-group">
+            <label for="golfCourseRegion">지역 선택</label>
+            <select id="golfCourseRegion">
+                <option value="seoul">서울/경기</option>
+                <option value="chungcheong">충청</option>
+                <option value="jeolla">전라</option>
+                <option value="gyeongsang">경상</option>
+                <option value="jeju">제주</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="golfCourseLocation">상세 위치 (예: 충남 천안시)</label>
+            <input type="text" id="golfCourseLocation" placeholder="충남 천안시">
+        </div>
+
+        <div class="form-group">
+            <label for="htmlContent">HTML 콘텐츠 붙여넣기</label>
+            <textarea id="htmlContent" placeholder="티스토리 HTML 콘텐츠를 여기에 붙여넣으세요..."></textarea>
+        </div>
+
+        <button onclick="convertContent()">변환하기</button>
+
+        <div id="result" class="result-box">
+            <h3>변환 결과</h3>
+            <p><strong>파일명:</strong> <span id="fileName"></span></p>
+            <textarea id="convertedHtml" readonly></textarea>
+            <button class="copy-btn" onclick="copyToClipboard()">복사하기</button>
+            <button class="copy-btn" onclick="downloadFile()">파일 다운로드</button>
+            <button onclick="saveToMainPage()">메인페이지에 저장하기</button>
+            <div class="success-message" id="copySuccess">✅ 복사되었습니다!</div>
+            <div class="success-message" id="saveSuccess">✅ 메인페이지에 저장되었습니다!</div>
+        </div>
+    </div>
+
+    <script>
+        let currentGolfCourseData = null;
+        
+        function convertContent() {
+            const golfCourseName = document.getElementById('golfCourseName').value.trim();
+            const region = document.getElementById('golfCourseRegion').value;
+            const location = document.getElementById('golfCourseLocation').value.trim();
+            const htmlContent = document.getElementById('htmlContent').value.trim();
+
+            if (!golfCourseName || !location || !htmlContent) {
+                alert('모든 필드를 입력해주세요.');
+                return;
+            }
+
+            // 맛집 정보 추출
+            const restaurants = extractRestaurants(htmlContent);
+
+            // 현재 데이터 저장
+            currentGolfCourseData = {
+                name: golfCourseName,
+                region: region,
+                location: location,
+                restaurants: restaurants,
+                htmlContent: htmlContent
+            };
+
+            // 파일명 생성 (영문 변환)
+            const fileName = golfCourseName.toLowerCase()
+                .replace(/cc/gi, '-cc')
+                .replace(/골프장/g, '-golf')
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9-]/g, '') + '.html';
+
+            // HTML 템플릿 생성
+            const convertedHtml = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${golfCourseName} 맛집 - 골프장 주변 맛집 추천</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="${golfCourseName} 맛집 근처 주변 추천! 라운딩 전후 방문하기 좋은 맛집 정보">
+    <meta name="keywords" content="${golfCourseName}, ${location} 맛집, 골프장 근처 맛집">
+    
+    <!-- 기본 스타일 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* 네비게이션 */
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            color: #228B22;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #1a6b1a;
+        }
+    </style>
+    
+    ${htmlContent}
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <h1><a href="index.html" style="color: white; text-decoration: none;">${golfCourseName} 맛집</a></h1>
+        <p>${location} 골프장 주변 맛집 추천</p>
+    </header>
+
+    <div class="container">
+        <!-- 네비게이션 -->
+        <nav class="back-nav">
+            <a href="index.html" class="back-link">← 전체 골프장 목록으로</a>
+        </nav>
+
+        ${htmlContent}
+    </div>
+</body>
+</html>`;
+
+            // 결과 표시
+            document.getElementById('fileName').textContent = fileName;
+            document.getElementById('convertedHtml').value = convertedHtml;
+            document.getElementById('result').style.display = 'block';
+
+            // 메인 페이지에 추가할 카드 정보도 생성
+            generateMainPageCard(golfCourseName, region, location);
+        }
+
+        function generateMainPageCard(name, region, location) {
+            const cardHtml = `
+<!-- ${name} -->
+<div class="golf-course-card" data-region="${region}" onclick="location.href='${name.toLowerCase().replace(/\s+/g, '-').replace(/cc/gi, '-cc')}.html'">
+    <div class="golf-course-header">
+        <h3 class="golf-course-name">${name}</h3>
+        <span class="golf-course-location">${location}</span>
+    </div>
+    <div class="golf-course-preview">
+        <p class="preview-title">추천 맛집</p>
+        <ul class="preview-list">
+            <!-- 맛집 정보는 HTML에서 추출하여 수동으로 입력 필요 -->
+        </ul>
+    </div>
+    <a href="${name.toLowerCase().replace(/\s+/g, '-').replace(/cc/gi, '-cc')}.html" class="view-detail-btn">맛집 자세히 보기</a>
+</div>`;
+
+            console.log('메인 페이지에 추가할 카드 HTML:', cardHtml);
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('convertedHtml');
+            textarea.select();
+            document.execCommand('copy');
+            
+            const successMsg = document.getElementById('copySuccess');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 2000);
+        }
+
+        function downloadFile() {
+            const content = document.getElementById('convertedHtml').value;
+            const fileName = document.getElementById('fileName').textContent;
+            
+            const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+
+        function extractRestaurants(htmlContent) {
+            const restaurants = [];
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            
+            const restaurantItems = doc.querySelectorAll('.restaurant-item');
+            restaurantItems.forEach(item => {
+                const title = item.querySelector('.restaurant-title')?.textContent || '';
+                const menuRow = Array.from(item.querySelectorAll('.info-row')).find(row => 
+                    row.textContent.includes('대표 메뉴'));
+                const menu = menuRow ? menuRow.querySelector('.info-content')?.textContent : '';
+                
+                restaurants.push({
+                    name: title,
+                    menu: menu
+                });
+            });
+            
+            return restaurants.slice(0, 3); // 최대 3개만
+        }
+
+        async function saveToMainPage() {
+            if (!currentGolfCourseData) {
+                alert('먼저 변환을 실행해주세요.');
+                return;
+            }
+
+            try {
+                // 서버가 실행중인지 확인
+                const serverUrl = 'http://localhost:3000';
+                
+                // HTML 파일 생성
+                const fileName = document.getElementById('fileName').textContent;
+                const content = document.getElementById('convertedHtml').value;
+                
+                try {
+                    // 서버로 파일 생성 요청
+                    const fileResponse = await fetch(`${serverUrl}/api/create-golf-page`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ fileName, content })
+                    });
+                    
+                    if (fileResponse.ok) {
+                        console.log('파일이 서버에 생성되었습니다.');
+                    }
+                } catch (serverError) {
+                    console.log('서버가 실행중이지 않습니다. 로컬 스토리지만 사용합니다.');
+                }
+                
+                // 로컬 스토리지에도 저장 (백업)
+                let golfCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
+                
+                // 중복 체크
+                const exists = golfCourses.find(gc => gc.name === currentGolfCourseData.name);
+                if (exists) {
+                    if (!confirm(`${currentGolfCourseData.name}는 이미 존재합니다. 덮어쓰시겠습니까?`)) {
+                        return;
+                    }
+                    // 기존 항목 제거
+                    golfCourses = golfCourses.filter(gc => gc.name !== currentGolfCourseData.name);
+                }
+                
+                // 새 데이터 추가
+                golfCourses.push(currentGolfCourseData);
+                
+                // 로컬 스토리지에 저장
+                localStorage.setItem('golfCourses', JSON.stringify(golfCourses));
+                
+                // 성공 메시지 표시
+                const successMsg = document.getElementById('saveSuccess');
+                successMsg.style.display = 'block';
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 2000);
+                
+                alert('저장되었습니다! 메인페이지를 새로고침하면 반영됩니다.');
+                
+            } catch (error) {
+                console.error('저장 중 오류:', error);
+                alert('저장 중 오류가 발생했습니다.');
+            }
+        }
+    </script>
+</body>
+</html>

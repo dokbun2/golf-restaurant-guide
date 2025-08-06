@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프린세스CC 맛집 - 골프장 주변 맛집 추천</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="프린세스CC 맛집 근처 주변 추천 3곳! 광덕산 옛골가든, 오성갈비, 하늘아래토브 등 라운딩 전후 방문하기 좋은 맛집 정보">
+    <meta name="keywords" content="프린세스CC, 천안 맛집, 골프장 근처 맛집, 버섯전골, 돼지갈비, 한방백숙">
+    
+    <!-- 제공된 스타일 -->
+    <style>
+        /* 공통 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* 네비게이션 */
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            color: #228B22;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #1a6b1a;
+        }
+
+        /* 맛집 리스트 스타일 */
+        .restaurant-list {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .restaurant-item {
+            display: flex;
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid #228B22;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 200px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .restaurant-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .restaurant-image-container {
+            width: 200px;
+            min-width: 200px;
+            height: 200px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .restaurant-image {
+            width: 160px;
+            height: 160px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .restaurant-image img {
+            width: 160px !important;
+            height: 160px !important;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .restaurant-info {
+            padding: 20px 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 200px;
+            position: relative;
+        }
+
+        .restaurant-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            font-family: inherit;
+            color: #228B22;
+            background: none;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .info-row {
+            display: flex;
+            margin: 2px 0;
+            line-height: 1.4;
+        }
+
+        .info-label {
+            font-weight: bold;
+            width: auto;
+            min-width: auto;
+            font-size: 13px;
+            text-align: left;
+            margin-right: 4px;
+        }
+
+        .info-content {
+            font-size: 13px;
+            text-align: left;
+            flex: 1;
+        }
+
+        .visit-btn-container {
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .visit-btn {
+            width: 100px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: #228B22;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .visit-btn:hover {
+            background-color: #1a6b1a;
+            transform: scale(1.05);
+        }
+
+        .title-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .restaurant-image a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* 모바일 스타일 */
+        @media (max-width: 768px) {
+            .restaurant-item {
+                width: calc(100% - 20px);
+                max-width: calc(100% - 20px);
+                height: 200px;
+                margin: 0 10px;
+            }
+            
+            .restaurant-image-container {
+                width: 160px;
+                min-width: 160px;
+                height: 200px;
+                padding: 20px 10px 20px 15px;
+            }
+            
+            .restaurant-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .restaurant-info {
+                padding: 15px 10px;
+                height: 200px;
+            }
+            
+            .restaurant-image img {
+                width: 120px !important;
+                height: 120px !important;
+                object-fit: cover;
+                object-position: center;
+            }
+            
+            .restaurant-title {
+                font-size: 16px;
+                margin: 0 0 8px 0;
+            }
+            
+            .info-label {
+                font-size: 12px;
+            }
+            
+            .info-content {
+                font-size: 12px;
+            }
+            
+            .visit-btn {
+                width: 80px;
+                height: 30px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <h1><a href="index.html" style="color: white; text-decoration: none;">프린세스CC 맛집</a></h1>
+        <p>충남 천안시 골프장 주변 맛집 추천</p>
+    </header>
+
+    <div class="container">
+        <!-- 네비게이션 -->
+        <nav class="back-nav">
+            <a href="index.html" class="back-link">← 전체 골프장 목록으로</a>
+        </nav>
+
+        <!-- 제목 & 소개글 -->
+        <h2 data-ke-size="size26">프린세스CC 맛집 근처 주변 추천 3곳, 아침, 점심 가능한 곳!</h2>
+        <p data-ke-size="size16">프린세스CC 맛집 근처 주변 맛집으로 라운딩 전 완벽한 체력 충전! 골프 라운딩을 하기 전후에 식사를 안하면 정말 18홀 동안 너무 힘들어요. 골프를 즐기는 것도 중요하지만 체력의 안배는 골프의 가장 중요한 사항이라는 것 알고계시나요? 여러분의 스코어와 건강을 위해 맛집 추천을 드립니다.</p>
+        <br>
+        
+        <!-- 맛집 목록 -->
+        <div class="restaurant-list">
+            <!-- 광덕산 옛골가든 -->
+            <div class="restaurant-item">
+                <div class="restaurant-image-container">
+                    <div class="restaurant-image">
+                        <a href="https://naver.me/5uIRbvKb" rel="noopener">
+                            <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNDA4MDVfMTA1%2FMDAxNzIyODMxMjcwNDQ3.NHwL1lG2PSdPRYUiNSCZAV5wro7ndczwMlEmOzYg7e4g.5m2BgEv7U9X_CxAnN1EuinSGhHsHy7mDGVQ1y3sMQncg.JPEG%2F20240805_114951.jpg%3Ftype%3Dw1500_60_sharpen" alt="광덕산 옛골가든" />
+                        </a>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <a href="https://naver.me/5uIRbvKb" class="title-link" rel="noopener">
+                        <div class="restaurant-title">광덕산 옛골가든</div>
+                    </a>
+                    <div class="info-row">
+                        <div class="info-label">대표 메뉴:</div>
+                        <div class="info-content">자연산버섯전골, 능이백숙</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주소:</div>
+                        <div class="info-content">광덕면 보산원1길 27</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">전화:</div>
+                        <div class="info-content">0507-1361-4870</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">설명:</div>
+                        <div class="info-content">맛있는 버섯전골의 담백한 맛.</div>
+                    </div>
+                    <div class="visit-btn-container">
+                        <a href="https://naver.me/5uIRbvKb" rel="noopener">
+                            <button class="visit-btn">바로가기</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오성갈비 -->
+            <div class="restaurant-item">
+                <div class="restaurant-image-container">
+                    <div class="restaurant-image">
+                        <a href="https://naver.me/FA2l7Cwe" rel="noopener">
+                            <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210516_4%2F1621153790186LsbDD_JPEG%2Fuk1VABxQbaZP6tysyBpvw9A4.jpg" alt="오성갈비" />
+                        </a>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <a href="https://naver.me/FA2l7Cwe" class="title-link" rel="noopener">
+                        <div class="restaurant-title">오성갈비</div>
+                    </a>
+                    <div class="info-row">
+                        <div class="info-label">대표 메뉴:</div>
+                        <div class="info-content">돼지갈비</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주소:</div>
+                        <div class="info-content">광덕면 광덕로 228</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">전화:</div>
+                        <div class="info-content">041-566-1999</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">설명:</div>
+                        <div class="info-content">부드럽고 맛있는 돼지갈비 전문점.</div>
+                    </div>
+                    <div class="visit-btn-container">
+                        <a href="https://naver.me/FA2l7Cwe" rel="noopener">
+                            <button class="visit-btn">바로가기</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 하늘아래토브 -->
+            <div class="restaurant-item">
+                <div class="restaurant-image-container">
+                    <div class="restaurant-image">
+                        <a href="https://naver.me/GpCRhXSd" rel="noopener">
+                            <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyMjExMjNfNDgg%2FMDAxNjY5MTc4MTI1NDIw.OAsUAuOgRT28LU5UlDTl2WhNPAxO5ZrqSU-X-7t6gsQg.gYSQUapdRDgdwGu797hbO2J5tDMxPtp9r2wmNGE9dMcg.JPEG%2FE492DDD1-6208-4783-A96F-E07993F9FB74.jpeg%3Ftype%3Dw1500_60_sharpen" alt="하늘아래토브" />
+                        </a>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <a href="https://naver.me/GpCRhXSd" class="title-link" rel="noopener">
+                        <div class="restaurant-title">하늘아래토브</div>
+                    </a>
+                    <div class="info-row">
+                        <div class="info-label">대표 메뉴:</div>
+                        <div class="info-content">한방백숙, 청국장</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">주소:</div>
+                        <div class="info-content">정안면 차령고개로 140-19</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">전화:</div>
+                        <div class="info-content">041-858-8796</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">설명:</div>
+                        <div class="info-content">싱싱한 재료로 만든 맛있는 한식.</div>
+                    </div>
+                    <div class="visit-btn-container">
+                        <a href="https://naver.me/GpCRhXSd" rel="noopener">
+                            <button class="visit-btn">바로가기</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 마무리 안내 -->
+        <p data-ke-size="size16">&nbsp;</p>
+        <div style="background-color: #f0f8f0; border: 2px solid #228B22; border-radius: 10px; padding: 20px; margin: 30px 0; box-shadow: 0 4px 8px rgba(34, 139, 34, 0.15);">
+            <p style="font-size: 1.2em; color: #228b22; margin-bottom: 10px; font-weight: bold; text-align: center;" data-ke-size="size16">⛳ 골프 라운딩 팁 ⛳</p>
+            <p style="font-size: 1.1em; line-height: 1.5; color: #333; text-align: center;" data-ke-size="size16">프린세스CC에서 완벽한 라운딩을 즐기기 위해서는 체력 관리가 필수입니다. 위에 소개된 맛집에서 영양가 있는 식사로 에너지를 충전하고, 수분 섭취도 잊지 마세요. 긍정적인 마인드셋과 든든한 한 끼는 스코어를 개선하는 비결입니다. 멋진 자연 속에서 여유로운 마음으로 즐기다 보면 어느새 숨겨진 실력이 발휘될 것입니다. 오늘도 행복한 골프 라이프 되세요!</p>
+        </div>
+
+        <!-- 태그 -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <p style="color: #666; font-size: 0.9em;">
+                프린세스CC, 천안 맛집, 골프장 근처 맛집, 버섯전골, 돼지갈비, 한방백숙
+            </p>
+        </div>
+    </div>
+</body>
+</html>

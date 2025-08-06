@@ -1,0 +1,495 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #00c73c;
+    --secondary-color: #03c75a;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --border-color: #e5e5e5;
+    --background-light: #f5f6f8;
+    --white: #ffffff;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-color: var(--background-light);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-list a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-list a:hover,
+.nav-list a.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Search Section */
+.search-section {
+    background-color: var(--white);
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-wrapper {
+    text-align: center;
+}
+
+.search-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.search-box {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+.search-input {
+    flex: 1;
+    padding: 15px 25px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Main Content */
+.main-content {
+    padding: 40px 0 60px;
+}
+
+.content-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.content-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.content-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+/* Restaurant Cards */
+.restaurant-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.restaurant-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s ease;
+}
+
+.restaurant-card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.restaurant-image {
+    flex-shrink: 0;
+}
+
+.restaurant-image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.restaurant-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.restaurant-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    flex-shrink: 0;
+}
+
+.icon.location::before {
+    content: "📍";
+}
+
+.icon.phone::before {
+    content: "📞";
+}
+
+.icon.time::before {
+    content: "🕐";
+}
+
+.restaurant-action {
+    display: flex;
+    align-items: center;
+}
+
+.naver-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.3;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.naver-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.no-results p {
+    font-size: 18px;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Golf Course Grid Styles */
+.golf-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.golf-course-card {
+    background: var(--white);
+    border: 2px solid #228B22;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.golf-course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-color: #1a6b1a;
+}
+
+.golf-course-header {
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
+    color: white;
+    padding: 20px;
+}
+
+.golf-course-name {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.golf-course-location {
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.golf-course-preview {
+    padding: 25px;
+}
+
+.preview-title {
+    font-size: 1.1em;
+    color: #228B22;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.preview-list {
+    list-style: none;
+    padding: 0;
+}
+
+.preview-list li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+}
+
+.preview-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #228B22;
+    font-weight: bold;
+}
+
+.view-detail-btn {
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background: #228B22;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-detail-btn:hover {
+    background: #1a6b1a;
+}
+
+.golf-course-card.coming-soon {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.golf-course-card.coming-soon:hover {
+    transform: none;
+}
+
+.coming-soon-text {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px 0;
+    font-size: 0.95em;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .nav-list a {
+        font-size: 14px;
+    }
+    
+    .search-title {
+        font-size: 22px;
+    }
+    
+    .search-box {
+        flex-direction: column;
+        border-radius: 8px;
+    }
+    
+    .search-input {
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .search-btn {
+        padding: 15px;
+        border-radius: 0 0 8px 8px;
+    }
+    
+    .content-title {
+        font-size: 26px;
+    }
+    
+    .content-subtitle {
+        font-size: 16px;
+    }
+    
+    .restaurant-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .restaurant-image img {
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    
+    .restaurant-info {
+        text-align: left;
+    }
+    
+    .restaurant-action {
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .naver-btn {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .logo {
+        font-size: 20px;
+    }
+    
+    .nav-list {
+        gap: 10px;
+    }
+    
+    .nav-list a {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+    
+    .golf-courses-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .search-section {
+        padding: 30px 0;
+    }
+    
+    .search-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .content-header {
+        margin-bottom: 30px;
+    }
+    
+    .restaurant-card {
+        padding: 15px;
+    }
+    
+    .restaurant-name {
+        font-size: 18px;
+    }
+    
+    .info-item {
+        font-size: 13px;
+    }
+}

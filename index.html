@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>골프장 맛집 추천 - 전국 골프장 주변 맛집 정보</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="전국 골프장 주변 맛집 추천! 지역별 골프장 근처 맛집 정보를 한눈에. 서울, 경기, 충청, 전라, 경상, 제주 등 전국 골프장 맛집을 소개합니다.">
+    <meta name="keywords" content="골프장 맛집, 골프장 주변 맛집, 골프장 근처 식당, 골프 맛집 추천, 전국 골프장 맛집">
+    <meta name="author" content="골프장 맛집 블로그">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://golfrestaurant.blog">
+    <meta property="og:title" content="골프장 맛집 추천 - 전국 골프장 주변 맛집 정보">
+    <meta property="og:description" content="전국 골프장 주변 맛집 추천! 지역별 골프장 근처 맛집 정보를 한눈에.">
+    <meta property="og:image" content="https://golfrestaurant.blog/images/og-image.jpg">
+    <meta property="og:locale" content="ko_KR">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://golfrestaurant.blog">
+    <meta property="twitter:title" content="골프장 맛집 추천 - 전국 골프장 주변 맛집 정보">
+    <meta property="twitter:description" content="전국 골프장 주변 맛집 추천! 지역별 골프장 근처 맛집 정보를 한눈에.">
+    <meta property="twitter:image" content="https://golfrestaurant.blog/images/og-image.jpg">
+    
+    <!-- Naver SEO -->
+    <meta name="naver-site-verification" content="네이버웹마스터도구인증코드">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "골프장 맛집 블로그",
+        "description": "전국 골프장 주변 맛집 정보를 제공하는 블로그",
+        "url": "https://golfrestaurant.blog",
+        "publisher": {
+            "@type": "Organization",
+            "name": "골프장 맛집 블로그"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <a href="index.html">골프장 맛집</a>
+            </h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#" data-region="all" class="active">전체</a></li>
+                    <li><a href="#" data-region="seoul">서울/경기</a></li>
+                    <li><a href="#" data-region="chungcheong">충청</a></li>
+                    <li><a href="#" data-region="jeolla">전라</a></li>
+                    <li><a href="#" data-region="gyeongsang">경상</a></li>
+                    <li><a href="#" data-region="jeju">제주</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-wrapper">
+                <h2 class="search-title">골프장 주변 맛집을 검색해보세요</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="골프장 이름을 입력하세요 (예: 스카이힐CC, 베어크리크)" class="search-input">
+                    <button type="button" class="search-btn" id="searchBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-header">
+                <h2 class="content-title">골프장 주변 맛집</h2>
+                <p class="content-subtitle">라운딩 전후 들르기 좋은 맛집들을 소개합니다</p>
+            </div>
+
+            <!-- Golf Course Cards Section -->
+            <div class="golf-courses-grid" id="golfCoursesGrid">
+                <!-- 프린세스CC -->
+                <div class="golf-course-card" data-region="chungcheong" onclick="location.href='princess-cc.html'">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">프린세스CC</h3>
+                        <span class="golf-course-location">충남 천안시</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">추천 맛집 3곳</p>
+                        <ul class="preview-list">
+                            <li>광덕산 옛골가든 - 버섯전골</li>
+                            <li>오성갈비 - 돼지갈비</li>
+                            <li>하늘아래토브 - 한방백숙</li>
+                        </ul>
+                    </div>
+                    <a href="princess-cc.html" class="view-detail-btn">맛집 자세히 보기</a>
+                </div>
+                
+                <!-- 서울/경기 지역 예시 -->
+                <div class="golf-course-card coming-soon" data-region="seoul">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">스카이힐CC</h3>
+                        <span class="golf-course-location">서울시 성북구</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">준비중입니다</p>
+                        <p class="coming-soon-text">곧 추가됩니다!</p>
+                    </div>
+                </div>
+                
+                <div class="golf-course-card coming-soon" data-region="seoul">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">남서울CC</h3>
+                        <span class="golf-course-location">경기도 성남시</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">준비중입니다</p>
+                        <p class="coming-soon-text">곧 추가됩니다!</p>
+                    </div>
+                </div>
+                
+                <!-- 제주 지역 예시 -->
+                <div class="golf-course-card coming-soon" data-region="jeju">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">오라CC</h3>
+                        <span class="golf-course-location">제주시 오라동</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">준비중입니다</p>
+                        <p class="coming-soon-text">곧 추가됩니다!</p>
+                    </div>
+                </div>
+                
+                <!-- 경상 지역 예시 -->
+                <div class="golf-course-card coming-soon" data-region="gyeongsang">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">통도CC</h3>
+                        <span class="golf-course-location">경남 양산시</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">준비중입니다</p>
+                        <p class="coming-soon-text">곧 추가됩니다!</p>
+                    </div>
+                </div>
+                
+                <!-- 전라 지역 예시 -->
+                <div class="golf-course-card coming-soon" data-region="jeolla">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">무등산CC</h3>
+                        <span class="golf-course-location">광주광역시</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">준비중입니다</p>
+                        <p class="coming-soon-text">곧 추가됩니다!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant List -->
+            <div class="restaurant-list" id="restaurantList" style="display: none;">
+                <!-- 홍정불고기한식 -->
+                <article class="restaurant-card" data-region="chungcheong" data-golf="불고기">
+                    <div class="restaurant-image">
+                        <img src="https://via.placeholder.com/150x150/FF6B6B/FFFFFF?text=홍정불고기" alt="홍정불고기한식">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">홍정불고기한식</h3>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>대표 메뉴: 불고기 돌솥밥..., 육회</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>주소: 충청남도 136 1층</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon phone"></span>
+                            <span>전화: 041-931-0239</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon time"></span>
+                            <span>영업: 불고기 돌솥밥 정식이 일품인 곳</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-action">
+                        <a href="https://map.naver.com/v5/search/홍정불고기한식" target="_blank" class="naver-btn">
+                            네이버<br>검색기
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 산수팀 한정식 -->
+                <article class="restaurant-card" data-region="gyeongsang" data-golf="한정식">
+                    <div class="restaurant-image">
+                        <img src="https://via.placeholder.com/150x150/4ECDC4/FFFFFF?text=산수팀" alt="산수팀 한정식">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">산수팀 한정식</h3>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>대표 메뉴: 산수팀 한정식, 스페셜 한정식</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>주소: 육미역길 85</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon phone"></span>
+                            <span>전화: 041-933-8874</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon time"></span>
+                            <span>영업: 정갈하고 푸짐한 남도식 한정식</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-action">
+                        <a href="https://map.naver.com/v5/search/산수팀 한정식" target="_blank" class="naver-btn">
+                            네이버<br>검색기
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 열월청춘 보령점 -->
+                <article class="restaurant-card" data-region="chungcheong" data-golf="보령">
+                    <div class="restaurant-image">
+                        <img src="https://via.placeholder.com/150x150/FF85A2/FFFFFF?text=열월청춘" alt="열월청춘 보령점">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">열월청춘 보령점</h3>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>대표 메뉴: 해물소갈비찜(소), 해물소갈비찜...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>주소: 열차로 1길 16 1층</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon phone"></span>
+                            <span>전화: 0507-1389-5409</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon time"></span>
+                            <span>영업: 해물과 소갈비찜의 특별한 만남</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-action">
+                        <a href="https://map.naver.com/v5/search/열월청춘 보령점" target="_blank" class="naver-btn">
+                            네이버<br>검색기
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Additional sample restaurants -->
+                <article class="restaurant-card" data-region="seoul" data-golf="스카이힐">
+                    <div class="restaurant-image">
+                        <img src="https://via.placeholder.com/150x150/6C5CE7/FFFFFF?text=서울맛집" alt="스카이힐CC 맛집">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">스카이힐CC 근처 한우전문점</h3>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>대표 메뉴: 한우 모듬구이, 육회비빔밥</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>주소: 서울특별시 성북구 정릉동 123-45</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon phone"></span>
+                            <span>전화: 02-1234-5678</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon time"></span>
+                            <span>영업: 11:00 - 22:00 (월요일 휴무)</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-action">
+                        <a href="https://map.naver.com/v5/search/스카이힐CC 맛집" target="_blank" class="naver-btn">
+                            네이버<br>검색기
+                        </a>
+                    </div>
+                </article>
+
+                <article class="restaurant-card" data-region="jeju" data-golf="오라">
+                    <div class="restaurant-image">
+                        <img src="https://via.placeholder.com/150x150/00B894/FFFFFF?text=제주맛집" alt="오라CC 맛집">
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">제주 오라CC 흑돼지 전문점</h3>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>대표 메뉴: 제주 흑돼지 구이, 고기국수</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon location"></span>
+                            <span>주소: 제주특별자치도 제주시 오라동 234-56</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon phone"></span>
+                            <span>전화: 064-123-4567</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon time"></span>
+                            <span>영업: 12:00 - 21:00 (연중무휴)</span>
+                        </div>
+                    </div>
+                    <div class="restaurant-action">
+                        <a href="https://map.naver.com/v5/search/오라CC 맛집" target="_blank" class="naver-btn">
+                            네이버<br>검색기
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <p>검색 결과가 없습니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 골프장 맛집 블로그. All rights reserved.</p>
+            <p>전국 골프장 주변 맛집 정보를 제공합니다.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
