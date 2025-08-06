@@ -1,0 +1,10 @@
+{
+  "courses": [
+    {
+      "id": "princess-cc",
+      "name": "프린세스CC",
+      "region": "chungcheong",
+      "location": "충남 천안시"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "프린세스CC",
+  "region": "chungcheong",
+  "location": "충남 천안시",
+  "restaurants": [
+    {
+      "name": "광덕산 옛골가든",
+      "menu": "자연산버섯전골, 능이백숙",
+      "address": "광덕면 보산원1길 27",
+      "phone": "0507-1361-4870",
+      "description": "맛있는 버섯전골의 담백한 맛.",
+      "link": "https://naver.me/5uIRbvKb",
+      "image": "https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNDA4MDVfMTA1%2FMDAxNzIyODMxMjcwNDQ3.NHwL1lG2PSdPRYUiNSCZAV5wro7ndczwMlEmOzYg7e4g.5m2BgEv7U9X_CxAnN1EuinSGhHsHy7mDGVQ1y3sMQncg.JPEG%2F20240805_114951.jpg%3Ftype%3Dw1500_60_sharpen"
+    },
+    {
+      "name": "오성갈비",
+      "menu": "돼지갈비",
+      "address": "광덕면 광덕로 228",
+      "phone": "041-566-1999",
+      "description": "부드럽고 맛있는 돼지갈비 전문점.",
+      "link": "https://naver.me/FA2l7Cwe",
+      "image": "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210516_4%2F1621153790186LsbDD_JPEG%2Fuk1VABxQbaZP6tysyBpvw9A4.jpg"
+    },
+    {
+      "name": "하늘아래토브",
+      "menu": "한방백숙, 청국장",
+      "address": "정안면 차령고개로 140-19",
+      "phone": "041-858-8796",
+      "description": "싱싱한 재료로 만든 맛있는 한식.",
+      "link": "https://naver.me/GpCRhXSd",
+      "image": "https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyMjExMjNfNDgg%2FMDAxNjY5MTc4MTI1NDIw.OAsUAuOgRT28LU5UlDTl2WhNPAxO5ZrqSU-X-7t6gsQg.gYSQUapdRDgdwGu797hbO2J5tDMxPtp9r2wmNGE9dMcg.JPEG%2FE492DDD1-6208-4783-A96F-E07993F9FB74.jpeg%3Ftype%3Dw1500_60_sharpen"
+    }
+  ],
+  "introTitle": "프린세스CC 맛집 근처 주변 추천 3곳, 아침, 점심 가능한 곳!",
+  "introText": "프린세스CC 맛집 근처 주변 맛집으로 라운딩 전 완벽한 체력 충전! 골프 라운딩을 하기 전후에 식사를 안하면 정말 18홀 동안 너무 힘들어요. 골프를 즐기는 것도 중요하지만 체력의 안배는 골프의 가장 중요한 사항이라는 것 알고계시나요? 여러분의 스코어와 건강을 위해 맛집 추천을 드립니다.",
+  "tipText": "프린세스CC에서 완벽한 라운딩을 즐기기 위해서는 체력 관리가 필수입니다. 위에 소개된 맛집에서 영양가 있는 식사로 에너지를 충전하고, 수분 섭취도 잊지 마세요. 긍정적인 마인드셋과 든든한 한 끼는 스코어를 개선하는 비결입니다. 멋진 자연 속에서 여유로운 마음으로 즐기다 보면 어느새 숨겨진 실력이 발휘될 것입니다. 오늘도 행복한 골프 라이프 되세요!",
+  "tags": ["프린세스CC", "천안 맛집", "골프장 근처 맛집", "버섯전골", "돼지갈비", "한방백숙"]
+}

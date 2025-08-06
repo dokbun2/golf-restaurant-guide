@@ -602,63 +602,112 @@ function initializePrincessCC() {
     }
 }
 
-// Load saved golf courses from localStorage
-function loadSavedGolfCourses() {
+// Load saved golf courses from localStorage and JSON files
+async function loadSavedGolfCourses() {
     const golfCoursesGrid = document.getElementById('golfCoursesGrid');
     if (!golfCoursesGrid) return;
     
-    const savedCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
-    
-    savedCourses.forEach(course => {
-        const fileName = course.name.toLowerCase()
-            .replace(/cc/gi, '-cc')
-            .replace(/골프장/g, '-golf')
-            .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9-]/g, '') + '.html';
-            
-        const restaurantList = course.restaurants.map(r => 
-            `<li>${r.name} - ${r.menu}</li>`
-        ).join('');
+    try {
+        // JSON 파일에서 골프장 목록 로드
+        const response = await fetch('golf-courses/golf-courses-list.json');
         
-        // golf-detail.html을 사용하여 동적으로 페이지 표시
-        const courseId = course.name.toLowerCase()
-            .replace(/cc/gi, 'cc')
-            .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9-]/g, '');
+        if (response.ok) {
+            const data = await response.json();
             
-        const cardHtml = `
-            <div class="golf-course-card" data-region="${course.region}" onclick="location.href='golf-detail.html?id=${courseId}'">
-                <div class="golf-course-header">
-                    <h3 class="golf-course-name">${course.name}</h3>
-                    <span class="golf-course-location">${course.location}</span>
-                </div>
-                <div class="golf-course-preview">
-                    <p class="preview-title">추천 맛집 ${course.restaurants.length}곳</p>
-                    <ul class="preview-list">
-                        ${restaurantList}
-                    </ul>
-                </div>
-                <a href="golf-detail.html?id=${courseId}" class="view-detail-btn">맛집 자세히 보기</a>
-            </div>
-        `;
+            // 각 골프장에 대해 카드 생성
+            for (const courseInfo of data.courses) {
+                // 골프장 상세 정보 로드
+                const detailResponse = await fetch(`golf-courses/${courseInfo.id}.json`);
+                if (detailResponse.ok) {
+                    const courseData = await detailResponse.json();
+                    
+                    const restaurantList = courseData.restaurants.slice(0, 3).map(r => 
+                        `<li>${r.name} - ${r.menu}</li>`
+                    ).join('');
+                    
+                    const cardHtml = `
+                        <div class="golf-course-card" data-region="${courseData.region}" onclick="location.href='golf-detail.html?id=${courseInfo.id}'">
+                            <div class="golf-course-header">
+                                <h3 class="golf-course-name">${courseData.name}</h3>
+                                <span class="golf-course-location">${courseData.location}</span>
+                            </div>
+                            <div class="golf-course-preview">
+                                <p class="preview-title">추천 맛집 ${courseData.restaurants.length}곳</p>
+                                <ul class="preview-list">
+                                    ${restaurantList}
+                                </ul>
+                            </div>
+                            <a href="golf-detail.html?id=${courseInfo.id}" class="view-detail-btn">맛집 자세히 보기</a>
+                        </div>
+                    `;
+                    
+                    // 기존 카드 앞에 추가
+                    const existingCards = golfCoursesGrid.querySelectorAll('.golf-course-card');
+                    if (existingCards.length > 0) {
+                        existingCards[0].insertAdjacentHTML('beforebegin', cardHtml);
+                    } else {
+                        golfCoursesGrid.insertAdjacentHTML('beforeend', cardHtml);
+                    }
+                    
+                    // golfRestaurantData에도 추가
+                    if (!golfRestaurantData[courseData.region]) {
+                        golfRestaurantData[courseData.region] = [];
+                    }
+                    golfRestaurantData[courseData.region].push({
+                        name: courseData.name,
+                        keywords: [courseData.name.toLowerCase(), courseData.name.replace(/\s+/g, '')]
+                    });
+                }
+            }
+        }
+    } catch (error) {
+        console.log('JSON 파일 로드 실패, localStorage 사용:', error);
         
-        // 기존 카드 앞에 추가
-        const existingCards = golfCoursesGrid.querySelectorAll('.golf-course-card');
-        if (existingCards.length > 0) {
-            existingCards[0].insertAdjacentHTML('beforebegin', cardHtml);
-        } else {
-            golfCoursesGrid.insertAdjacentHTML('beforeend', cardHtml);
-        }
-    });
-    
-    // golfRestaurantData에도 추가
-    savedCourses.forEach(course => {
-        if (!golfRestaurantData[course.region]) {
-            golfRestaurantData[course.region] = [];
-        }
-        golfRestaurantData[course.region].push({
-            name: course.name,
-            keywords: [course.name.toLowerCase(), course.name.replace(/\s+/g, '')]
+        // JSON 파일이 없으면 기존 localStorage 방식 사용
+        const savedCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
+        
+        savedCourses.forEach(course => {
+            const restaurantList = course.restaurants.map(r => 
+                `<li>${r.name} - ${r.menu}</li>`
+            ).join('');
+            
+            const courseId = course.name.toLowerCase()
+                .replace(/cc/gi, 'cc')
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9-]/g, '');
+                
+            const cardHtml = `
+                <div class="golf-course-card" data-region="${course.region}" onclick="location.href='golf-detail.html?id=${courseId}'">
+                    <div class="golf-course-header">
+                        <h3 class="golf-course-name">${course.name}</h3>
+                        <span class="golf-course-location">${course.location}</span>
+                    </div>
+                    <div class="golf-course-preview">
+                        <p class="preview-title">추천 맛집 ${course.restaurants.length}곳</p>
+                        <ul class="preview-list">
+                            ${restaurantList}
+                        </ul>
+                    </div>
+                    <a href="golf-detail.html?id=${courseId}" class="view-detail-btn">맛집 자세히 보기</a>
+                </div>
+            `;
+            
+            // 기존 카드 앞에 추가
+            const existingCards = golfCoursesGrid.querySelectorAll('.golf-course-card');
+            if (existingCards.length > 0) {
+                existingCards[0].insertAdjacentHTML('beforebegin', cardHtml);
+            } else {
+                golfCoursesGrid.insertAdjacentHTML('beforeend', cardHtml);
+            }
+            
+            // golfRestaurantData에도 추가
+            if (!golfRestaurantData[course.region]) {
+                golfRestaurantData[course.region] = [];
+            }
+            golfRestaurantData[course.region].push({
+                name: course.name,
+                keywords: [course.name.toLowerCase(), course.name.replace(/\s+/g, '')]
+            });
         });
-    });
+    }
 }

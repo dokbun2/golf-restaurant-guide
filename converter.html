@@ -364,17 +364,32 @@
             const restaurantItems = doc.querySelectorAll('.restaurant-item');
             restaurantItems.forEach(item => {
                 const title = item.querySelector('.restaurant-title')?.textContent || '';
-                const menuRow = Array.from(item.querySelectorAll('.info-row')).find(row => 
-                    row.textContent.includes('대표 메뉴'));
-                const menu = menuRow ? menuRow.querySelector('.info-content')?.textContent : '';
+                
+                // 각 정보 추출
+                const getInfoContent = (label) => {
+                    const row = Array.from(item.querySelectorAll('.info-row')).find(row => 
+                        row.textContent.includes(label));
+                    return row ? row.querySelector('.info-content')?.textContent || '' : '';
+                };
+                
+                // 링크 추출
+                const link = item.querySelector('a[href*="naver"]')?.href || '';
+                
+                // 이미지 추출
+                const image = item.querySelector('.restaurant-image img')?.src || '';
                 
                 restaurants.push({
                     name: title,
-                    menu: menu
+                    menu: getInfoContent('대표 메뉴'),
+                    address: getInfoContent('주소'),
+                    phone: getInfoContent('전화'),
+                    description: getInfoContent('설명'),
+                    link: link,
+                    image: image
                 });
             });
             
-            return restaurants.slice(0, 3); // 최대 3개만
+            return restaurants; // 모든 맛집 반환
         }
 
         async function saveToMainPage() {
@@ -384,31 +399,42 @@
             }
 
             try {
-                // 서버가 실행중인지 확인
-                const serverUrl = 'http://localhost:3000';
+                // JSON 파일명 생성
+                const jsonFileName = currentGolfCourseData.name.toLowerCase()
+                    .replace(/cc/gi, 'cc')
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '');
                 
-                // HTML 파일 생성
-                const fileName = document.getElementById('fileName').textContent;
-                const content = document.getElementById('convertedHtml').value;
+                // JSON 데이터 준비 (htmlContent 제거하고 구조화된 데이터만 저장)
+                const jsonData = {
+                    name: currentGolfCourseData.name,
+                    region: currentGolfCourseData.region,
+                    location: currentGolfCourseData.location,
+                    restaurants: currentGolfCourseData.restaurants.map(r => ({
+                        name: r.name,
+                        menu: r.menu,
+                        address: r.address || '',
+                        phone: r.phone || '',
+                        description: r.description || '',
+                        link: r.link || '',
+                        image: r.image || ''
+                    })),
+                    introTitle: document.querySelector('#htmlContent').value.match(/<h2[^>]*>([^<]+)<\/h2>/)?.[1] || 
+                               `${currentGolfCourseData.name} 맛집 근처 주변 추천`,
+                    introText: document.querySelector('#htmlContent').value.match(/<p[^>]*>([^<]+)<\/p>/)?.[1] || 
+                               '골프장 주변 맛집으로 라운딩 전 완벽한 체력 충전!',
+                    tipText: '완벽한 라운딩을 즐기기 위해서는 체력 관리가 필수입니다.',
+                    tags: [currentGolfCourseData.name, currentGolfCourseData.location + ' 맛집', '골프장 근처 맛집']
+                };
                 
-                try {
-                    // 서버로 파일 생성 요청
-                    const fileResponse = await fetch(`${serverUrl}/api/create-golf-page`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ fileName, content })
-                    });
-                    
-                    if (fileResponse.ok) {
-                        console.log('파일이 서버에 생성되었습니다.');
-                    }
-                } catch (serverError) {
-                    console.log('서버가 실행중이지 않습니다. 로컬 스토리지만 사용합니다.');
-                }
+                // JSON 파일 다운로드
+                const jsonBlob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+                const jsonLink = document.createElement('a');
+                jsonLink.href = URL.createObjectURL(jsonBlob);
+                jsonLink.download = `${jsonFileName}.json`;
+                jsonLink.click();
                 
-                // 로컬 스토리지에도 저장 (백업)
+                // 로컬 스토리지에도 저장
                 let golfCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
                 
                 // 중복 체크
@@ -430,17 +456,13 @@
                 // 성공 메시지 표시
                 const successMsg = document.getElementById('saveSuccess');
                 successMsg.style.display = 'block';
-                setTimeout(() => {
-                    successMsg.style.display = 'none';
-                }, 2000);
                 
-                // 이제 파일 다운로드가 필요 없음!
-                alert('저장되었습니다! 메인페이지로 이동합니다.');
+                alert('JSON 파일이 다운로드되었습니다! golf-courses 폴더에 넣어주세요.\n메인페이지로 이동합니다.');
                 
                 // 메인페이지로 이동
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 500);
+                }, 1000);
                 
             } catch (error) {
                 console.error('저장 중 오류:', error);

@@ -1,5 +1,8 @@
 node_modules/
 .DS_Store
-golf-courses.json
 npm-debug.log*
 .env
+
+# Include golf-courses folder
+!golf-courses/
+!golf-courses/*.json
