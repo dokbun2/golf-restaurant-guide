@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>골프장 맛집 페이지 변환기</title>
+    <title>골프장 맛집 관리자 페이지</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -114,13 +114,132 @@
             margin-top: 10px;
             display: none;
         }
+
+        /* 골프장 목록 스타일 */
+        .golf-course-list {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .golf-course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .golf-course-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .golf-course-info {
+            flex: 1;
+        }
+
+        .golf-course-name {
+            font-weight: bold;
+            color: #228B22;
+            margin-bottom: 5px;
+        }
+
+        .golf-course-location {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .golf-course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #45a049;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #da190b;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s;
+        }
+
+        .tab.active {
+            background: #228B22;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <h1 style="margin: 0;">🏌️ 골프장 맛집 페이지 변환기</h1>
+        <h1 style="margin: 0;">🏌️ 골프장 맛집 관리자 페이지</h1>
         <a href="index.html" style="background: #228B22; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">← 메인페이지</a>
     </div>
+
+    <!-- 탭 메뉴 -->
+    <div class="tab-container">
+        <button class="tab active" onclick="showTab('list')">골프장 목록</button>
+        <button class="tab" onclick="showTab('add')">새 골프장 추가</button>
+    </div>
+
+    <!-- 골프장 목록 탭 -->
+    <div id="listTab" class="tab-content active">
+        <div class="golf-course-list">
+            <h2>등록된 골프장 목록</h2>
+            <div id="golfCoursesList">
+                <!-- 골프장 목록이 여기에 동적으로 추가됩니다 -->
+                <p>등록된 골프장 정보를 불러오는 중...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 새 골프장 추가 탭 -->
+    <div id="addTab" class="tab-content">
 
     <div class="converter-box">
         <h2>골프장 정보 입력</h2>
@@ -178,9 +297,150 @@
             <div class="success-message" id="saveSuccess">✅ 메인페이지에 저장되었습니다!</div>
         </div>
     </div>
+    </div>
 
     <script>
         let currentGolfCourseData = null;
+        
+        // 페이지 로드 시 인증 확인
+        window.onload = function() {
+            if (sessionStorage.getItem('adminAuthenticated') !== 'true') {
+                alert('관리자 인증이 필요합니다.');
+                window.location.href = 'index.html';
+                return;
+            }
+            loadGolfCoursesList();
+        };
+
+        // 탭 전환 함수
+        function showTab(tabName) {
+            // 모든 탭 비활성화
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 선택된 탭 활성화
+            if (tabName === 'list') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('listTab').classList.add('active');
+                loadGolfCoursesList();
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('addTab').classList.add('active');
+            }
+        }
+
+        // 골프장 목록 로드
+        async function loadGolfCoursesList() {
+            const listContainer = document.getElementById('golfCoursesList');
+            listContainer.innerHTML = '<p>로딩 중...</p>';
+            
+            try {
+                // JSON 파일에서 목록 로드
+                const response = await fetch('golf-courses/golf-courses-list.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    displayGolfCoursesList(data.courses);
+                } else {
+                    // JSON 파일이 없으면 localStorage 사용
+                    const savedCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
+                    displayLocalStorageCourses(savedCourses);
+                }
+            } catch (error) {
+                console.error('Error loading golf courses:', error);
+                // 오류 발생 시 localStorage 사용
+                const savedCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
+                displayLocalStorageCourses(savedCourses);
+            }
+        }
+
+        // JSON 파일의 골프장 목록 표시
+        async function displayGolfCoursesList(courses) {
+            const listContainer = document.getElementById('golfCoursesList');
+            
+            if (courses.length === 0) {
+                listContainer.innerHTML = '<p>등록된 골프장이 없습니다.</p>';
+                return;
+            }
+            
+            let html = '';
+            for (const course of courses) {
+                // 각 골프장의 상세 정보 로드
+                try {
+                    const response = await fetch(`golf-courses/${course.id}.json`);
+                    if (response.ok) {
+                        const courseData = await response.json();
+                        html += createGolfCourseItem(course.id, courseData);
+                    }
+                } catch (error) {
+                    console.error(`Error loading ${course.id}:`, error);
+                }
+            }
+            
+            listContainer.innerHTML = html || '<p>골프장 정보를 불러올 수 없습니다.</p>';
+        }
+
+        // localStorage의 골프장 목록 표시
+        function displayLocalStorageCourses(courses) {
+            const listContainer = document.getElementById('golfCoursesList');
+            
+            if (courses.length === 0) {
+                listContainer.innerHTML = '<p>등록된 골프장이 없습니다.</p>';
+                return;
+            }
+            
+            let html = '';
+            courses.forEach(course => {
+                const courseId = course.name.toLowerCase()
+                    .replace(/cc/gi, 'cc')
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '');
+                html += createGolfCourseItem(courseId, course);
+            });
+            
+            listContainer.innerHTML = html;
+        }
+
+        // 골프장 아이템 HTML 생성
+        function createGolfCourseItem(id, data) {
+            return `
+                <div class="golf-course-item">
+                    <div class="golf-course-info">
+                        <div class="golf-course-name">${data.name}</div>
+                        <div class="golf-course-location">${data.location} | 맛집 ${data.restaurants.length}곳</div>
+                    </div>
+                    <div class="golf-course-actions">
+                        <button class="btn-edit" onclick="editGolfCourse('${id}')">수정</button>
+                        <button class="btn-delete" onclick="deleteGolfCourse('${id}', '${data.name}')">삭제</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 골프장 수정
+        function editGolfCourse(id) {
+            alert(`${id} 골프장 수정 기능은 준비 중입니다.\n새로운 정보로 다시 추가해주세요.`);
+        }
+
+        // 골프장 삭제
+        async function deleteGolfCourse(id, name) {
+            if (!confirm(`정말로 ${name}을(를) 삭제하시겠습니까?`)) {
+                return;
+            }
+            
+            // localStorage에서 삭제
+            let golfCourses = JSON.parse(localStorage.getItem('golfCourses') || '[]');
+            golfCourses = golfCourses.filter(course => {
+                const courseId = course.name.toLowerCase()
+                    .replace(/cc/gi, 'cc')
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '');
+                return courseId !== id;
+            });
+            localStorage.setItem('golfCourses', JSON.stringify(golfCourses));
+            
+            alert(`${name}이(가) 삭제되었습니다.\nJSON 파일은 수동으로 삭제해주세요.`);
+            loadGolfCoursesList();
+        }
         
         function convertContent() {
             const golfCourseName = document.getElementById('golfCourseName').value.trim();

@@ -238,6 +238,44 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Admin password functions
+function checkAdminPassword() {
+    document.getElementById('passwordModal').style.display = 'block';
+    document.getElementById('adminPassword').focus();
+}
+
+function closePasswordModal() {
+    document.getElementById('passwordModal').style.display = 'none';
+    document.getElementById('adminPassword').value = '';
+}
+
+function verifyPassword() {
+    const password = document.getElementById('adminPassword').value;
+    const correctPassword = '12345'; // 초기 비밀번호
+    
+    if (password === correctPassword) {
+        // 세션에 인증 정보 저장
+        sessionStorage.setItem('adminAuthenticated', 'true');
+        window.location.href = 'converter.html';
+    } else {
+        alert('비밀번호가 틀렸습니다.');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+    }
+}
+
+// Enter 키로 비밀번호 확인
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('adminPassword');
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+    }
+});
+
 // Lazy loading for images (if needed in the future)
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
