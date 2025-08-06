@@ -270,6 +270,28 @@ body {
     font-size: 14px;
 }
 
+/* Admin button */
+.admin-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #228B22;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.admin-btn:hover {
+    background: #1a6b1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
 /* Golf Course Grid Styles */
 .golf-courses-grid {
     display: grid;
