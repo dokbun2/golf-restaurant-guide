@@ -258,8 +258,14 @@ function loadSavedGolfCourses() {
             `<li>${r.name} - ${r.menu}</li>`
         ).join('');
         
+        // golf-detail.html을 사용하여 동적으로 페이지 표시
+        const courseId = course.name.toLowerCase()
+            .replace(/cc/gi, 'cc')
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-]/g, '');
+            
         const cardHtml = `
-            <div class="golf-course-card" data-region="${course.region}" onclick="location.href='${fileName}'">
+            <div class="golf-course-card" data-region="${course.region}" onclick="location.href='golf-detail.html?id=${courseId}'">
                 <div class="golf-course-header">
                     <h3 class="golf-course-name">${course.name}</h3>
                     <span class="golf-course-location">${course.location}</span>
@@ -270,7 +276,7 @@ function loadSavedGolfCourses() {
                         ${restaurantList}
                     </ul>
                 </div>
-                <a href="${fileName}" class="view-detail-btn">맛집 자세히 보기</a>
+                <a href="golf-detail.html?id=${courseId}" class="view-detail-btn">맛집 자세히 보기</a>
             </div>
         `;
         
